@@ -1,0 +1,160 @@
+脚本启动于 2019年01月30日 星期三 23时30分46秒
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3[?1034hxiaoweit@andromeda-27 23:30:46 ~/253p/hw/hw3 
+$ make clean
+rm -rf countChar countChar.o main.o
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3xiaoweit@andromeda-27 23:30:56 ~/253p/hw/hw3 
+$ make
+g++ -ggdb -Wall -o countChar.o -c countChar.cpp
+g++ -ggdb -Wall -o main.o -c main.cpp
+g++ -ggdb -o countChar countChar.o main.o
+-----------------------------OK-----------------------
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3xiaoweit@andromeda-27 23:30:59 ~/253p/hw/hw3 
+$ gdb ./countChar
+[?1034hGNU gdb (GDB) 7.12
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-pc-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./countChar...done.
+(gdb) br main
+Breakpoint 1 at 0x40074c: file main.cpp, line 4.
+(gdb) run < sample
+Starting program: /home/xiaoweit/253p/hw/hw3/countChar < sample
+warning: File "/pkg/gcc/5.4.0/lib64/libstdc++.so.6.0.21-gdb.py" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load:/home/xiaoweit/cs238p/xv6-public/.gdbinit".
+To enable execution of this file add
+	add-auto-load-safe-path /pkg/gcc/5.4.0/lib64/libstdc++.so.6.0.21-gdb.py
+line to your configuration file "/home/xiaoweit/.gdbinit".
+To completely disable this security protection add
+	set auto-load safe-path /
+line to your configuration file "/home/xiaoweit/.gdbinit".
+For more information about this security protection see the
+"Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:
+	info "(gdb)Auto-loading safe path"
+
+Breakpoint 1, main () at main.cpp:4
+4		doCount();
+(gdb) s
+doCount () at countChar.cpp:25
+25		int printable[95] = {0};
+(gdb) n
+26		int space = 0;
+(gdb) 
+27		int other = 0;
+(gdb) print space
+$1 = 0
+(gdb) backtrace
+#0  doCount () at countChar.cpp:27
+#1  0x0000000000400751 in main () at main.cpp:4
+(gdb) n
+28		count(printable, space, other);
+(gdb) s
+count (printable=0x7fffffffd800, space=@0x7fffffffd7fc: 0, 
+    other=@0x7fffffffd7f8: 0) at countChar.cpp:6
+6		while((c = getchar()) != EOF){
+(gdb) n
+7			if(c >= ' ' && c <= '~')
+(gdb) 
+8				printable[c-' ']++;
+(gdb) 
+9			if(c == ' ' || c == '\t' || c == '\n')
+(gdb) 
+11			if(c < ' ' || c > '~')
+(gdb) 
+6		while((c = getchar()) != EOF){
+(gdb) 
+7			if(c >= ' ' && c <= '~')
+(gdb) 
+8				printable[c-' ']++;
+(gdb) 
+9			if(c == ' ' || c == '\t' || c == '\n')
+(gdb) 
+11			if(c < ' ' || c > '~')
+(gdb) 
+6		while((c = getchar()) != EOF){
+(gdb) 
+7			if(c >= ' ' && c <= '~')
+(gdb) continue
+Continuing.
+' ': 91
+'"': 10
+',': 28
+'-': 1
+'.': 7
+':': 1
+'?': 1
+'C': 2
+'E': 1
+'H': 1
+'I': 2
+'M': 1
+'O': 2
+'T': 4
+'W': 1
+'a': 27
+'b': 6
+'c': 5
+'d': 19
+'e': 69
+'f': 8
+'g': 14
+'h': 22
+'i': 36
+'j': 2
+'k': 4
+'l': 21
+'m': 6
+'n': 35
+'o': 37
+'p': 11
+'r': 26
+'s': 32
+'t': 35
+'u': 11
+'v': 6
+'w': 6
+'y': 13
+whitespace characters: 110
+other characters: 19
+[Inferior 1 (process 26115) exited normally]
+(gdb) quit
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3xiaoweit@andromeda-27 23:33:24 ~/253p/hw/hw3 
+$ make clean
+rm -rf countChar countChar.o main.o
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3xiaoweit@andromeda-27 23:33:27 ~/253p/hw/hw3 
+$ cat Makefile 
+CXXFLAGS=-std=c++11 -Wpedantic -Wall -Wextra -Werror -Weffc++
+CFLAGS=-std=c99 -pedantic -Wall -Wextra -Werror -ansi -Wwrite-strings  -Weffc++
+
+.SUFFIXES:.cpp .o
+ 
+CC=g++
+ 
+SRCS=countChar.cpp \
+        main.cpp
+ 
+OBJS=$(SRCS:.cpp=.o)
+EXEC=countChar
+ 
+start: $(OBJS)
+	$(CC) -ggdb -o $(EXEC) $(OBJS)
+	@echo "-----------------------------OK-----------------------"
+ 
+.cpp.o:
+	$(CC) -ggdb -Wall -o $@ -c $<
+ 
+clean:
+	rm -rf $(EXEC) $(OBJS)
+]0;xiaoweit@andromeda-27:~/253p/hw/hw3xiaoweit@andromeda-27 23:33:43 ~/253p/hw/hw3 
+$ exit
+exit
+
+Script done on 2019年01月30日 星期三 23时34分21秒

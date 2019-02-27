@@ -1,0 +1,9 @@
+
+vi foo.cc>output&       
+
+cat<foo.cc>foo.output&  
+
+history|parseCmd>BashTokens   
+
+cat rolodex.c|tr A-Z a-z>output.foo& 
+
